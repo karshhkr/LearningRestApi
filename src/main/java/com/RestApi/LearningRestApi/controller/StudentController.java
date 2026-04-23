@@ -1,21 +1,47 @@
 package com.RestApi.LearningRestApi.controller;
 
+import com.RestApi.LearningRestApi.dto.AddStudentsRequest;
 import com.RestApi.LearningRestApi.dto.StudentDto;
+import com.RestApi.LearningRestApi.service.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class StudentController {
-
-
+// giving access to the controller of service layer
+private final StudentService studentService; // connecting controller(presentation layer)  ---> serviceLayer(Persistance layer )
 
 
 // Api mapping
-    @GetMapping("/students")
+@GetMapping("/students")
 
-       public StudentDto getStudent(){
-            return  new StudentDto(4l, "Utkarsh Kumar","Dabgarwal", " karshkr@gmail.com");
-    }
+public ResponseEntity <List<StudentDto>>getAllStudents(){
+//    return   ResponseEntity
+//            .status(HttpStatus.OK)
+//            .body(studentService
+//                    .getAllStudents());// we have to go to service to getall students
+
+return  ResponseEntity.ok(studentService.getAllStudents());
+}
+
+
+    @GetMapping("/students/{id}/{name}")// id is path variable which is dynamic part of url
+
+       public ResponseEntity<StudentDto> getStudent(@PathVariable Long id, @PathVariable String name ){ // path variable value  is mapped of  long and inject in mwthod
+           // return "Path variable"+id +"Name is "+name;
+         StudentDto student=studentService .getAllStudentsById(id);
+return ResponseEntity.ok(student);
+}
+
+
+     @PostMapping
+     public ResponseEntity<StudentDto> createNewStudent(@RequestBody AddStudentsRequest addStudentsRequest){
+return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createNewStudent(addStudentsRequest));
+     }
+
 }
