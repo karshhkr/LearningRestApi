@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+@Data  // lombok helps in like  gettter setters
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentDto {
