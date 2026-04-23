@@ -6,6 +6,7 @@ import com.RestApi.LearningRestApi.entity.Student;
 
 import java.lang.invoke.CallSite;
 import java.util.List;
+import java.util.Map;
 
 public interface StudentService {
     List<StudentDto> getAllStudents();
@@ -18,5 +19,6 @@ public interface StudentService {
 
     StudentDto updateStudent(Long id, AddStudentsRequest addStudentsRequest);
 
+    StudentDto updatePartialStudent(Long id, Map<String, Object> update);
 }
 

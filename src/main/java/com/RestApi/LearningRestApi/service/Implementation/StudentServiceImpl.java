@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Arrays.stream;
 
@@ -72,9 +73,30 @@ return modelMapper.map(student, StudentDto.class);
     public StudentDto updateStudent(Long id, AddStudentsRequest addStudentsRequest) {
         Student student = studentRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("student not found with id: "+id));
-         modelMapper.map(student, StudentDto.class);
-         studentRepository.save(student);
+         modelMapper.map(addStudentsRequest, student);
+         student.setId(id);
+         Student updateStudent =studentRepository.save(student);
          return modelMapper.map(student, StudentDto.class);
     }
 
+    @Override
+    public StudentDto updatePartialStudent(Long id, Map<String, Object> update) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("student not found with id: "+id));
+
+        update.forEach((field, value) ->{
+                switch (field) {
+                    case "name":
+                        student.setName((String) value);
+                          break;
+                    case "email":
+                        student.setEmail((String) value);
+                    break;
+                        default:
+                        throw new IllegalArgumentException("student not found with id: "+id);
+                          }
+    });
+   Student saveStudent=     studentRepository.save(student);
+        return modelMapper.map(student, StudentDto.class);
+    }
 }
