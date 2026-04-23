@@ -60,5 +60,21 @@ return modelMapper.map(student, StudentDto.class);
         return modelMapper.map(student, StudentDto.class);
     }
 
+    @Override
+    public void deleteStudentById(Long id) {
+        //check students is in db
+        if(!studentRepository.existsById(id)){
+            throw new IllegalArgumentException("student not found with id: "+id);
+        }
+        studentRepository.deleteById(id);
+    }
+    @Override
+    public StudentDto updateStudent(Long id, AddStudentsRequest addStudentsRequest) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("student not found with id: "+id));
+         modelMapper.map(student, StudentDto.class);
+         studentRepository.save(student);
+         return modelMapper.map(student, StudentDto.class);
+    }
 
 }
