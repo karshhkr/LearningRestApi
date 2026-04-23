@@ -56,7 +56,8 @@ return modelMapper.map(student, StudentDto.class);
     @Override
     public StudentDto createNewStudent(AddStudentsRequest addStudentsRequest) {
       Student newStudent = modelMapper.map(addStudentsRequest, Student.class);
-        return null;
+      Student student = studentRepository.save(newStudent);
+        return modelMapper.map(student, StudentDto.class);
     }
 
 

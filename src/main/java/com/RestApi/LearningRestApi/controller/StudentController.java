@@ -39,7 +39,7 @@ return ResponseEntity.ok(student);
 }
 
 
-     @PostMapping
+     @PostMapping("/students")
      public ResponseEntity<StudentDto> createNewStudent(@RequestBody AddStudentsRequest addStudentsRequest){
 return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createNewStudent(addStudentsRequest));
      }
