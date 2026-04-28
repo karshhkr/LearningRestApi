@@ -3,6 +3,7 @@ package com.RestApi.LearningRestApi.controller;
 import com.RestApi.LearningRestApi.dto.AddStudentsRequest;
 import com.RestApi.LearningRestApi.dto.StudentDto;
 import com.RestApi.LearningRestApi.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +45,10 @@ return ResponseEntity.ok(student);
 
 
      @PostMapping
-     public ResponseEntity<StudentDto> createNewStudent(@RequestBody AddStudentsRequest addStudentsRequest){
-return ResponseEntity.status(HttpStatus.CREATED).body(studentService.createNewStudent(addStudentsRequest));
+     public ResponseEntity<StudentDto> createNewStudent(@RequestBody @Valid AddStudentsRequest addStudentsRequest){
+return ResponseEntity.status(HttpStatus.CREATED)
+        .body(studentService
+                .createNewStudent(addStudentsRequest));
      }
 
 
